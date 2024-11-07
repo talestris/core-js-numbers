@@ -331,7 +331,15 @@ function getSumOfDigits(num) {
  *   16  => true
  *   15  => false
  */
-function isPowerOfTwo(num) {}
+function isPowerOfTwo(num) {
+  if (num <= 0) return false;
+  let currentNum = num;
+  while (currentNum > 1) {
+    if (currentNum % 2 !== 0) return false;
+    currentNum = Math.floor(num / 2);
+  }
+  return true;
+}
 
 /**
  * Returns the sine of a number.
