@@ -72,7 +72,7 @@ function getAverage(value1, value2) {
  *   (-5,0) (10,-10) => 18.027756377319946
  */
 function getDistanceBetweenPoints(x1, y1, x2, y2) {
-  const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  const distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
   return distance;
 }
 
@@ -188,7 +188,7 @@ function getParallelepipedDiagonal(a, b, c) {
  *   1678, 3  => 2000
  */
 function roundToPowerOfTen(num, pow) {
-  const result = Math.round(num * Math.pow(10, pow)) / Math.pow(10, pow);
+  const result = Math.round(num * 10 ** pow) / 10 ** pow;
   return result;
 }
 
@@ -234,7 +234,7 @@ function isPrime(n) {
  */
 function toNumber(value, def) {
   const num = Number(value);
-  const result = isNaN(num) ? def : num;
+  const result = Number.isNaN(num) ? def : num;
   return result;
 }
 
@@ -275,7 +275,7 @@ function getFibonacciNumber(index) {
   let prev = 0;
   let current = 1;
 
-  for (let i = 2; i <= index; i++) {
+  for (let i = 2; i <= index; i += 1) {
     const temp = current;
     current += prev;
     prev = temp;
@@ -312,9 +312,10 @@ function getSumToN(n) {
  */
 function getSumOfDigits(num) {
   let sum = 0;
-  while (num > 0) {
-    sum += num % 10;
-    num = Math.floor(num / 10);
+  let remainingNum = num;
+  while (remainingNum > 0) {
+    sum += remainingNum % 10;
+    remainingNum = Math.floor(remainingNum / 10);
   }
   return sum;
 }
@@ -330,11 +331,7 @@ function getSumOfDigits(num) {
  *   16  => true
  *   15  => false
  */
-function isPowerOfTwo(num) {
-  if (num <= 0) return false;
-  const result = (num & (num - 1)) === 0;
-  return result;
-}
+function isPowerOfTwo(num) {}
 
 /**
  * Returns the sine of a number.
@@ -446,10 +443,9 @@ function getNumberValue(number) {
  */
 function isNumber(number) {
   if (typeof number === 'number') {
-    return !isNaN(number);
-  } else {
-    return false;
+    return !Number.isNaN(number);
   }
+  return false;
 }
 
 /**
@@ -464,15 +460,13 @@ function isNumber(number) {
  * '5'  => false
  */
 function isInteger(number) {
-  if (typeof number !== 'number' || isNaN(number)) {
+  if (typeof number !== 'number' || Number.isNaN(number)) {
     return false;
-  } else {
-    if (number % 1 === 0) {
-      return true;
-    } else {
-      return false;
-    }
   }
+  if (number % 1 === 0) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -487,7 +481,7 @@ function isInteger(number) {
  */
 function getFloatOnString(str) {
   const parsed = parseFloat(str);
-  const result = isNaN(parsed) ? NaN : parsed;
+  const result = Number.isNaN(parsed) ? NaN : parsed;
   return result;
 }
 
@@ -541,9 +535,8 @@ function isSafeInteger(number) {
     number <= Number.MAX_SAFE_INTEGER
   ) {
     return true;
-  } else {
-    return false;
   }
+  return false;
 }
 
 /**
@@ -620,7 +613,11 @@ function getIntegerPartNumber(number) {
  * 1, 2, 3       => 6
  * 0.1, 0.2, 0.3 => 0.6
  */
-function getSumOfNumbers(x1, x2, x3) {}
+function getSumOfNumbers(x1, x2, x3) {
+  const arrayOfNumbers = [x1, x2, x3];
+  const result = arrayOfNumbers.reduce((a, b) => a + b, 0);
+  return result;
+}
 
 /**
  * Returns the largest number.
@@ -634,7 +631,12 @@ function getSumOfNumbers(x1, x2, x3) {}
  * -5, -6 => -5
  * 0, 5   => 5
  */
-function getMaxNumber(firstNumber, secondNumber) {}
+function getMaxNumber(firstNumber, secondNumber) {
+  if (firstNumber > secondNumber) {
+    return firstNumber;
+  }
+  return secondNumber;
+}
 
 /**
  * Returns a random integer in the range from min to max.
@@ -648,7 +650,12 @@ function getMaxNumber(firstNumber, secondNumber) {}
  * -5, 0 => -5 | -4 | -3 | -2 | -1 | 0
  * -1, 1 => -1 | 0 | 1
  */
-function getRandomInteger(min, max) {}
+function getRandomInteger(min, max) {
+  const minimum = Math.ceil(min);
+  const maximum = Math.floor(max);
+  const result = Math.floor(Math.random() * (maximum - minimum + 1)) + min;
+  return result;
+}
 
 /**
  * Returns the length of the hypotenuse of a right triangle.
@@ -660,7 +667,10 @@ function getRandomInteger(min, max) {}
  * @example:
  * 3, 4 => 5
  */
-function getHypotenuse(a, b) {}
+function getHypotenuse(a, b) {
+  const result = Math.sqrt(a ** 2 + b ** 2);
+  return result;
+}
 
 /**
  * Returns count of odd numbers from zero to the resulting number.
@@ -675,7 +685,10 @@ function getHypotenuse(a, b) {}
  * 10 => 5
  * 15 => 8
  */
-function getCountOfOddNumbers(number) {}
+function getCountOfOddNumbers(number) {
+  const result = Math.floor((number + 1) / 2);
+  return result;
+}
 
 module.exports = {
   getRectangleArea,
