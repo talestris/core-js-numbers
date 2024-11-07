@@ -363,7 +363,8 @@ function getSine(num) {
  * 2, 2    => '10'
  */
 function numberToStringInBase(number, base) {
-  return number.toString(base);
+  const result = number.toString(base);
+  return result;
 }
 
 /**
@@ -377,7 +378,8 @@ function numberToStringInBase(number, base) {
  * 12345, 2    => '1.23e+4'
  */
 function toExponential(number, fractionDigits) {
-
+  const result = number.toExponential(fractionDigits);
+  return result;
 }
 
 /**
@@ -408,6 +410,8 @@ function toFixed(number, fractionDigits) {
  * 12.345, 4   => '12.35'
  */
 function toPrecision(number, precision) {
+  const result = number.toPrecision(precision);
+  return result;
 
 }
 
@@ -422,7 +426,8 @@ function toPrecision(number, precision) {
  * Number(-5)    => -5
  */
 function getNumberValue(number) {
-
+  const value = number.valueOf();
+  return value;
 }
 
 /**
