@@ -211,7 +211,7 @@ function roundToPowerOfTen(num, pow) {
  */
 function isPrime(n) {
   if (n <= 1) return false;
-  for (let i = 2; i <= Math.sqrt(n); i+=1) {
+  for (let i = 2; i <= Math.sqrt(n); i += 1) {
     if (n % i === 0) return false;
   }
   return true;
@@ -296,7 +296,7 @@ function getFibonacciNumber(index) {
  *   1  => 1
  */
 function getSumToN(n) {
-  return n * (n + 1) / 2;
+  return (n * (n + 1)) / 2;
 }
 
 /**
@@ -412,7 +412,6 @@ function toFixed(number, fractionDigits) {
 function toPrecision(number, precision) {
   const result = number.toPrecision(precision);
   return result;
-
 }
 
 /**
@@ -446,7 +445,11 @@ function getNumberValue(number) {
  * '5'      => false
  */
 function isNumber(number) {
-
+  if (typeof number === 'number') {
+    return !isNaN(number);
+  } else {
+    return false;
+  }
 }
 
 /**
@@ -461,7 +464,15 @@ function isNumber(number) {
  * '5'  => false
  */
 function isInteger(number) {
-
+  if (typeof number !== 'number' || isNaN(number)) {
+    return false;
+  } else {
+    if (number % 1 === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 /**
@@ -475,7 +486,9 @@ function isInteger(number) {
  * 'abcdefgh'      => NaN
  */
 function getFloatOnString(str) {
-
+  const parsed = parseFloat(str);
+  const result = isNaN(parsed) ? NaN : parsed;
+  return result;
 }
 
 /**
@@ -493,7 +506,21 @@ function getFloatOnString(str) {
  * '10', 8              => 8
  */
 function getIntegerOnString(str, base) {
+  let result = 0;
+  let foundDigit = false;
 
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str[i];
+    const digit = parseInt(char, 10);
+
+    if (digit >= 0 && digit < base) {
+      result = result * base + digit;
+      foundDigit = true;
+    } else {
+      break;
+    }
+  }
+  return foundDigit ? result : NaN;
 }
 
 /**
@@ -508,7 +535,15 @@ function getIntegerOnString(str, base) {
  * 2 ** 53  => false
  */
 function isSafeInteger(number) {
-
+  if (
+    Number.isInteger(number) &&
+    number >= Number.MIN_SAFE_INTEGER &&
+    number <= Number.MAX_SAFE_INTEGER
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /**
@@ -522,7 +557,8 @@ function isSafeInteger(number) {
  * -5.1 => -6
  */
 function roundToSmallestInteger(number) {
-
+  const result = Math.floor(number);
+  return result;
 }
 
 /**
@@ -536,7 +572,8 @@ function roundToSmallestInteger(number) {
  * -5.9 => -5
  */
 function roundToLargestInteger(number) {
-
+  const result = Math.ceil(number);
+  return result;
 }
 
 /**
@@ -551,7 +588,8 @@ function roundToLargestInteger(number) {
  * -5.5 => -5
  */
 function roundToNearestInteger(number) {
-
+  const result = Math.round(number);
+  return result;
 }
 
 /**
@@ -566,7 +604,8 @@ function roundToNearestInteger(number) {
  * -5.5 => -5
  */
 function getIntegerPartNumber(number) {
-
+  const result = Math.trunc(number);
+  return result;
 }
 
 /**
@@ -581,9 +620,7 @@ function getIntegerPartNumber(number) {
  * 1, 2, 3       => 6
  * 0.1, 0.2, 0.3 => 0.6
  */
-function getSumOfNumbers(x1, x2, x3) {
-
-}
+function getSumOfNumbers(x1, x2, x3) {}
 
 /**
  * Returns the largest number.
@@ -597,9 +634,7 @@ function getSumOfNumbers(x1, x2, x3) {
  * -5, -6 => -5
  * 0, 5   => 5
  */
-function getMaxNumber(firstNumber, secondNumber) {
-
-}
+function getMaxNumber(firstNumber, secondNumber) {}
 
 /**
  * Returns a random integer in the range from min to max.
@@ -613,9 +648,7 @@ function getMaxNumber(firstNumber, secondNumber) {
  * -5, 0 => -5 | -4 | -3 | -2 | -1 | 0
  * -1, 1 => -1 | 0 | 1
  */
-function getRandomInteger(min, max) {
-
-}
+function getRandomInteger(min, max) {}
 
 /**
  * Returns the length of the hypotenuse of a right triangle.
@@ -627,9 +660,7 @@ function getRandomInteger(min, max) {
  * @example:
  * 3, 4 => 5
  */
-function getHypotenuse(a, b) {
-
-}
+function getHypotenuse(a, b) {}
 
 /**
  * Returns count of odd numbers from zero to the resulting number.
@@ -644,9 +675,7 @@ function getHypotenuse(a, b) {
  * 10 => 5
  * 15 => 8
  */
-function getCountOfOddNumbers(number) {
-
-}
+function getCountOfOddNumbers(number) {}
 
 module.exports = {
   getRectangleArea,
