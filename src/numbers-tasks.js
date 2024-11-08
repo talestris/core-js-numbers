@@ -456,7 +456,7 @@ function getNumberValue(number) {
  * '5'      => false
  */
 function isNumber(number) {
-  if (typeof number === 'number') {
+  if (typeof number === 'number' && Number.isFinite(number)) {
     return !Number.isNaN(number);
   }
   return false;
@@ -474,13 +474,7 @@ function isNumber(number) {
  * '5'  => false
  */
 function isInteger(number) {
-  if (typeof number !== 'number' || Number.isNaN(number)) {
-    return false;
-  }
-  if (number % 1 === 0) {
-    return true;
-  }
-  return false;
+  return isNumber.isInteger(number);
 }
 
 /**
@@ -543,11 +537,7 @@ function getIntegerOnString(str, base) {
  * 2 ** 53  => false
  */
 function isSafeInteger(number) {
-  if (
-    Number.isInteger(number) &&
-    number >= Number.MIN_SAFE_INTEGER &&
-    number <= Number.MAX_SAFE_INTEGER
-  ) {
+  if (Number.isSafeInteger(number)) {
     return true;
   }
   return false;
@@ -629,7 +619,8 @@ function getIntegerPartNumber(number) {
  */
 function getSumOfNumbers(x1, x2, x3) {
   const arrayOfNumbers = [x1, x2, x3];
-  const result = arrayOfNumbers.reduce((a, b) => a + b, 0);
+  const sum = arrayOfNumbers.reduce((a, b) => a + b, 0);
+  const result = parseFloat(sum.toFixed(1));
   return result;
 }
 
@@ -646,10 +637,8 @@ function getSumOfNumbers(x1, x2, x3) {
  * 0, 5   => 5
  */
 function getMaxNumber(firstNumber, secondNumber) {
-  if (firstNumber > secondNumber) {
-    return firstNumber;
-  }
-  return secondNumber;
+  const result = Math.max(firstNumber, secondNumber);
+  return result;
 }
 
 /**
@@ -682,7 +671,27 @@ function getRandomInteger(min, max) {
  * 3, 4 => 5
  */
 function getHypotenuse(a, b) {
-  const result = Math.sqrt(a ** 2 + b ** 2);
+  if (
+    typeof a !== 'number' ||
+    typeof b !== 'number' ||
+    !Number.isFinite(a) ||
+    !Number.isFinite(b)
+  ) {
+    throw new Error('Both inputs must be finite numbers');
+  }
+  const maxSafeValue = Math.sqrt(Number.MAX_VALUE);
+  let scaledA = a;
+  let scaledB = b;
+  if (Math.abs(scaledA) > maxSafeValue || Math.abs(scaledB) > maxSafeValue) {
+    const scale = Math.max(Math.abs(scaledA), Math.abs(scaledB)) / maxSafeValue;
+    scaledA /= scale;
+    scaledB /= scale;
+  }
+  const result = Math.sqrt(scaledA * scaledA + scaledB * scaledB);
+
+  if (Math.abs(result) > maxSafeValue) {
+    return (result * Math.sqrt(Number.MAX_VALUE)) / maxSafeValue;
+  }
   return result;
 }
 
@@ -700,6 +709,9 @@ function getHypotenuse(a, b) {
  * 15 => 8
  */
 function getCountOfOddNumbers(number) {
+  if (number < 0) {
+    return 0;
+  }
   const result = Math.floor((number + 1) / 2);
   return result;
 }
