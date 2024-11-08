@@ -52,8 +52,10 @@ function getCircleCircumference(radius) {
  *  -3, 3  => 0
  */
 function getAverage(value1, value2) {
-  const average = (value1 + value2) / 2;
-  return average;
+  const halfValue1 = value1 / 2;
+  const halfValue2 = value2 / 2;
+  const result = halfValue1 + halfValue2;
+  return result;
 }
 
 /**
@@ -188,7 +190,11 @@ function getParallelepipedDiagonal(a, b, c) {
  *   1678, 3  => 2000
  */
 function roundToPowerOfTen(num, pow) {
-  const result = Math.round(num * 10 ** pow) / 10 ** pow;
+  if (typeof num !== 'number' || typeof pow !== 'number') {
+    throw new Error('Both arguments must be numbers');
+  }
+  const multiplier = 10 ** pow;
+  const result = Math.round(num / multiplier) * multiplier;
   return result;
 }
 
@@ -336,7 +342,7 @@ function isPowerOfTwo(num) {
   let currentNum = num;
   while (currentNum > 1) {
     if (currentNum % 2 !== 0) return false;
-    currentNum = Math.floor(num / 2);
+    currentNum = Math.floor(currentNum / 2);
   }
   return true;
 }
